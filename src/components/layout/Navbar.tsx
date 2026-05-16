@@ -73,10 +73,10 @@ export function Navbar() {
         </div>
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group relative z-10">
-          <span className="text-3xl font-black tracking-tighter uppercase text-white group-hover:text-neon transition-colors duration-300">
-            <span className="text-neon mr-2.5">SS</span>
-            <span className="mr-2.5">Fitness</span>
+        <Link href="/" className="flex items-center gap-1 group relative z-10">
+          <span className="text-xl sm:text-2xl md:text-3xl font-black tracking-tighter uppercase text-white group-hover:text-neon transition-colors duration-300 whitespace-nowrap">
+            <span className="text-neon mr-1 md:mr-2.5">SS</span>
+            <span className="mr-1 md:mr-2.5">Fitness</span>
             <span>Solutions</span><span className="text-neon">.</span>
           </span>
         </Link>
