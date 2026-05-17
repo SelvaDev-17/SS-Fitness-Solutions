@@ -3,13 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Star, ShoppingCart } from "lucide-react";
-import { Product } from "@prisma/client";
-import { useCart } from "@/context/CartContext";
+import { SafeProduct, useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
 interface ProductCardProps {
-  product: Product;
+  product: SafeProduct;
 }
 
 export function ProductCard({ product }: ProductCardProps) {

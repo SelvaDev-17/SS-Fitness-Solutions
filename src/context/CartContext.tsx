@@ -3,13 +3,18 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { Product } from "@prisma/client";
 
-export interface CartItem extends Product {
+export type SafeProduct = Omit<Product, "createdAt" | "updatedAt"> & {
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export interface CartItem extends SafeProduct {
   quantity: number;
 }
 
 interface CartContextType {
   items: CartItem[];
-  addToCart: (product: Product, quantity?: number) => void;
+  addToCart: (product: SafeProduct, quantity?: number) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
@@ -46,7 +51,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items, isMounted]);
 
-  const addToCart = (product: Product, quantity: number = 1) => {
+  const addToCart = (product: SafeProduct, quantity: number = 1) => {
     setItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === product.id);
       if (existingItem) {

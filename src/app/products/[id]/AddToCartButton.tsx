@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useCart } from "@/context/CartContext";
-import { Product } from "@/lib/mock-data";
+import { SafeProduct, useCart } from "@/context/CartContext";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 
-export function AddToCartButton({ product }: { product: Product }) {
+export function AddToCartButton({ product }: { product: SafeProduct }) {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
 
