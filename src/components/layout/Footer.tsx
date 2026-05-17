@@ -28,14 +28,14 @@ export function Footer() {
               Premium sports nutrition designed for those who demand the absolute best. Elevate your performance with our elite formulations.
             </p>
             <div className="flex items-center gap-4">
-              <a href="https://www.google.com/maps?ftid=0x3a5267d90f449f01:0xa553ca40200c679" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-background flex items-center justify-center text-muted-foreground hover:text-neon hover:shadow-[0_0_10px_rgba(255,165,0,0.3)] transition-all">
+              <a href="https://www.google.com/maps?ftid=0x3a5267d90f449f01:0xa553ca40200c679" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-background flex items-center justify-center text-muted-foreground hover:text-neon hover:shadow-[0_0_10px_rgba(255,255,255,0.3)] transition-all">
                 <Globe className="w-5 h-5" />
               </a>
-              <a href="https://wa.me/919840018555" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-background flex items-center justify-center text-muted-foreground hover:text-neon hover:shadow-[0_0_10px_rgba(255,165,0,0.3)] transition-all">
+              <a href="https://wa.me/919840018555" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-background flex items-center justify-center text-muted-foreground hover:text-neon hover:shadow-[0_0_10px_rgba(255,255,255,0.3)] transition-all">
                 <MessageCircle className="w-5 h-5" />
               </a>
               <DirectMailModal>
-                <div className="w-10 h-10 rounded-full bg-background flex items-center justify-center text-muted-foreground hover:text-neon hover:shadow-[0_0_10px_rgba(255,165,0,0.3)] transition-all">
+                <div className="w-10 h-10 rounded-full bg-background flex items-center justify-center text-muted-foreground hover:text-neon hover:shadow-[0_0_10px_rgba(255,255,255,0.3)] transition-all">
                   <Mail className="w-5 h-5" />
                 </div>
               </DirectMailModal>
@@ -91,3 +91,4 @@ export function Footer() {
     </footer>
   );
 }
+

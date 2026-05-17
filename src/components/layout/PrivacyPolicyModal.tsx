@@ -35,7 +35,7 @@ export function PrivacyPolicyModal({ className, text = "Privacy Policy" }: { cla
 
       {isOpen && mounted && createPortal(
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-card border border-neon/30 p-8 rounded-lg shadow-[0_0_20px_rgba(255,165,0,0.2)] max-w-2xl w-full relative max-h-[90vh] flex flex-col">
+          <div className="bg-card border border-neon/30 p-8 rounded-lg shadow-[0_0_20px_rgba(255,255,255,0.2)] max-w-2xl w-full relative max-h-[90vh] flex flex-col">
             {hasAccepted && (
               <button 
                 onClick={handleClose}
@@ -112,3 +112,4 @@ export function PrivacyPolicyModal({ className, text = "Privacy Policy" }: { cla
     </>
   );
 }
+

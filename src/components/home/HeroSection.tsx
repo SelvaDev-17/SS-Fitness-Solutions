@@ -32,7 +32,7 @@ export function HeroSection() {
           className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white uppercase leading-tight md:leading-[0.9] mb-6"
         >
           Unleash Your <br className="hidden sm:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon to-[#00ff88]">True Potential</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon to-[#ff9900]">True Potential</span>
         </motion.h1>
 
         <motion.p 
@@ -53,7 +53,7 @@ export function HeroSection() {
         >
           <Link 
             href="/#shop" 
-            className="inline-flex items-center justify-center bg-neon text-neon-foreground hover:bg-neon/90 font-bold uppercase tracking-widest px-8 py-4 rounded-md shadow-[0_0_15px_rgba(57,255,20,0.4)] hover:shadow-[0_0_25px_rgba(57,255,20,0.6)] transition-all"
+            className="inline-flex items-center justify-center bg-neon text-neon-foreground hover:bg-neon/90 font-bold uppercase tracking-widest px-8 py-4 rounded-md shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.6)] transition-all"
           >
             Shop Now <ArrowRight className="ml-2 w-5 h-5" />
           </Link>
@@ -65,3 +65,4 @@ export function HeroSection() {
     </section>
   );
 }
+

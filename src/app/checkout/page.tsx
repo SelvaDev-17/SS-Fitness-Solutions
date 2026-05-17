@@ -17,6 +17,7 @@ export default function CheckoutPage() {
   const { items, totalPrice, clearCart, totalItems } = useCart();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("upi");
 
   const shipping = totalPrice > 100 ? 0 : 9.99;
   const tax = totalPrice * 0.08;
@@ -111,7 +112,7 @@ export default function CheckoutPage() {
         <Navbar />
         <main className="flex-1 flex flex-col pt-32 pb-24 min-h-screen">
           <div className="container mx-auto px-4 md:px-6 flex flex-col items-center justify-center h-full mt-20">
-            <div className="bg-card border border-border p-12 rounded-xl flex flex-col items-center text-center max-w-lg shadow-[0_0_50px_rgba(57,255,20,0.1)]">
+            <div className="bg-card border border-border p-12 rounded-xl flex flex-col items-center text-center max-w-lg shadow-[0_0_50px_rgba(255,255,255,0.1)]">
               <CheckCircle2 className="w-24 h-24 text-neon mb-6" />
               <h1 className="text-4xl font-black uppercase tracking-widest text-white mb-4">Payment Successful!</h1>
               <p className="text-muted-foreground mb-8 text-lg">
@@ -159,19 +160,25 @@ export default function CheckoutPage() {
 
                 <h3 className="text-2xl font-bold uppercase tracking-widest text-white mb-6">Payment Methods</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="border border-neon bg-neon/5 rounded-lg p-4 cursor-pointer flex items-center justify-between">
+                  <div 
+                    onClick={() => setPaymentMethod("upi")}
+                    className={`rounded-lg p-4 cursor-pointer flex items-center justify-between transition-colors ${paymentMethod === "upi" ? 'border border-neon bg-neon/5' : 'border border-border hover:border-border/80 bg-muted/20'}`}
+                  >
                     <div>
                       <h4 className="font-bold text-white uppercase">UPI / QR Code</h4>
                       <p className="text-xs text-muted-foreground">Google Pay, PhonePe, Paytm</p>
                     </div>
-                    <div className="w-4 h-4 rounded-full bg-neon"></div>
+                    <div className={`w-4 h-4 rounded-full ${paymentMethod === "upi" ? 'bg-neon' : 'border border-muted-foreground'}`}></div>
                   </div>
-                  <div className="border border-border hover:border-border/80 bg-muted/20 rounded-lg p-4 cursor-pointer flex items-center justify-between transition-colors">
+                  <div 
+                    onClick={() => setPaymentMethod("cards")}
+                    className={`rounded-lg p-4 cursor-pointer flex items-center justify-between transition-colors ${paymentMethod === "cards" ? 'border border-neon bg-neon/5' : 'border border-border hover:border-border/80 bg-muted/20'}`}
+                  >
                     <div>
                       <h4 className="font-bold text-white uppercase">Cards</h4>
                       <p className="text-xs text-muted-foreground">Credit or Debit</p>
                     </div>
-                    <div className="w-4 h-4 rounded-full border border-muted-foreground"></div>
+                    <div className={`w-4 h-4 rounded-full ${paymentMethod === "cards" ? 'bg-neon' : 'border border-muted-foreground'}`}></div>
                   </div>
                 </div>
               </div>
@@ -207,7 +214,7 @@ export default function CheckoutPage() {
                 <Button 
                   onClick={handlePayment}
                   disabled={loading || items.length === 0}
-                  className="w-full h-14 text-lg font-bold uppercase tracking-widest bg-neon text-neon-foreground hover:bg-neon/90 rounded-none shadow-[0_0_15px_rgba(57,255,20,0.4)] hover:shadow-[0_0_25px_rgba(57,255,20,0.6)] transition-all flex items-center justify-center"
+                  className="w-full h-14 text-lg font-bold uppercase tracking-widest bg-neon text-neon-foreground hover:bg-neon/90 rounded-none shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.6)] transition-all flex items-center justify-center"
                 >
                   {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Pay Now"}
                 </Button>
@@ -225,3 +232,4 @@ export default function CheckoutPage() {
     </>
   );
 }
+

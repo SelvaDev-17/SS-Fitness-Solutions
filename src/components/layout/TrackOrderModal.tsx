@@ -54,7 +54,7 @@ export function TrackOrderModal({ className, text = "Track Order" }: { className
 
       {isOpen && mounted && createPortal(
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-card border border-neon/30 p-8 rounded-lg shadow-[0_0_20px_rgba(255,165,0,0.2)] max-w-md w-full relative">
+          <div className="bg-card border border-neon/30 p-8 rounded-lg shadow-[0_0_20px_rgba(255,255,255,0.2)] max-w-md w-full relative">
             <button 
               onClick={closeAndReset}
               className="absolute top-4 right-4 text-muted-foreground hover:text-neon transition-colors"
@@ -176,3 +176,4 @@ export function TrackOrderModal({ className, text = "Track Order" }: { className
     </>
   );
 }
+

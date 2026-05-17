@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 import { AuthProvider } from "@/components/providers/AuthProvider";
-
+import { Analytics } from "@vercel/analytics/next";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -25,6 +25,7 @@ export default function RootLayout({
             {children}
           </CartProvider>
         </AuthProvider>
+        <Analytics />
       </body>
     </html>
   );
