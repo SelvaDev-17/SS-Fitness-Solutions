@@ -17,10 +17,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { items, total } = await req.json();
+    const { items, total, address, city, state, zip, phone } = await req.json();
 
     if (!items || items.length === 0) {
       return NextResponse.json({ error: "No items in order" }, { status: 400 });
+    }
+
+    if (!address || !city || !state || !zip || !phone) {
+      return NextResponse.json({ error: "Incomplete delivery details" }, { status: 400 });
     }
 
     // 1. Create a Razorpay Order
@@ -39,6 +43,11 @@ export async function POST(req: Request) {
         total: total,
         paymentId: order.id, // Store Razorpay order ID temporarily, update on success
         status: "PENDING",
+        address,
+        city,
+        state,
+        zip,
+        phone,
         items: {
           create: items.map((item: any) => ({
             productId: item.id,

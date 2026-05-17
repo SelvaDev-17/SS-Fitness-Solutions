@@ -86,6 +86,11 @@ model Order {
   status    String   @default("PENDING") // PENDING, PAID, SHIPPED, DELIVERED, CANCELLED
   total     Float
   paymentId String?  // Razorpay payment ID
+  address   String?
+  city      String?
+  state     String?
+  zip       String?
+  phone     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   

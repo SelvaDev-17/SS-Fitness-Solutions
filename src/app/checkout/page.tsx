@@ -19,6 +19,13 @@ export default function CheckoutPage() {
   const [success, setSuccess] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("upi");
 
+  // Delivery details state
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [deliveryState, setDeliveryState] = useState("");
+  const [zip, setZip] = useState("");
+  const [phone, setPhone] = useState("");
+
   const shipping = totalPrice > 100 ? 0 : 9.99;
   const tax = totalPrice * 0.08;
   const finalTotal = totalPrice + shipping + tax;
@@ -31,6 +38,12 @@ export default function CheckoutPage() {
 
   const handlePayment = async () => {
     if (items.length === 0) return;
+    
+    if (!address || !city || !deliveryState || !zip || !phone) {
+      alert("Please fill in all delivery details.");
+      return;
+    }
+    
     setLoading(true);
 
     try {
@@ -38,7 +51,15 @@ export default function CheckoutPage() {
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items, total: finalTotal }),
+        body: JSON.stringify({ 
+          items, 
+          total: finalTotal,
+          address,
+          city,
+          state: deliveryState,
+          zip,
+          phone 
+        }),
       });
 
       if (!res.ok) {
@@ -79,6 +100,7 @@ export default function CheckoutPage() {
         prefill: {
           name: session?.user?.name || "",
           email: session?.user?.email || "",
+          contact: phone,
         },
         theme: {
           color: "#ff9900", // Neon Orange
@@ -157,6 +179,69 @@ export default function CheckoutPage() {
                     </li>
                   ))}
                 </ul>
+
+                <h3 className="text-2xl font-bold uppercase tracking-widest text-white mb-6">Delivery Details</h3>
+                <div className="space-y-4 mb-8">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-300 uppercase tracking-wider">Street Address</label>
+                    <input
+                      type="text"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon transition-colors"
+                      placeholder="123 Fitness St."
+                      required
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-300 uppercase tracking-wider">City</label>
+                      <input
+                        type="text"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon transition-colors"
+                        placeholder="Mumbai"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-300 uppercase tracking-wider">State</label>
+                      <input
+                        type="text"
+                        value={deliveryState}
+                        onChange={(e) => setDeliveryState(e.target.value)}
+                        className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon transition-colors"
+                        placeholder="MH"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-300 uppercase tracking-wider">ZIP Code</label>
+                      <input
+                        type="text"
+                        value={zip}
+                        onChange={(e) => setZip(e.target.value)}
+                        className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon transition-colors"
+                        placeholder="400001"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-300 uppercase tracking-wider">Phone</label>
+                      <input
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon transition-colors"
+                        placeholder="9876543210"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
 
                 <h3 className="text-2xl font-bold uppercase tracking-widest text-white mb-6">Payment Methods</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
