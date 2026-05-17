@@ -42,20 +42,15 @@ export default function CheckoutPage() {
       });
 
       if (!res.ok) {
-        console.warn("Razorpay API failed (likely due to mock keys). Simulating successful payment...");
-        setTimeout(() => {
-          setSuccess(true);
-          clearCart();
-          setLoading(false);
-        }, 1500);
-        return;
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to create order. Please check Razorpay API keys.");
       }
 
       const orderData = await res.json();
 
       // 2. Initialize Razorpay checkout
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_mock", 
+        key: orderData.key_id, 
         amount: orderData.amount,
         currency: orderData.currency,
         name: "SS Fitness Solutions",
@@ -95,9 +90,9 @@ export default function CheckoutPage() {
         alert("Payment failed! Reason: " + response.error.description);
       });
       rzp.open();
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert("Something went wrong initializing the payment.");
+      alert(error.message || "Something went wrong initializing the payment.");
     } finally {
       setLoading(false);
     }

@@ -5,7 +5,7 @@ import Razorpay from "razorpay";
 import { prisma } from "@/lib/prisma";
 
 const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID || "rzp_test_mock",
+  key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY_ID || "rzp_test_mock",
   key_secret: process.env.RAZORPAY_KEY_SECRET || "secret_mock",
 });
 
@@ -54,6 +54,7 @@ export async function POST(req: Request) {
       currency: order.currency,
       amount: order.amount,
       dbOrderId: dbOrder.id,
+      key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY_ID || "rzp_test_mock"
     });
   } catch (error) {
     console.error("ORDER_CREATE_ERROR", error);
