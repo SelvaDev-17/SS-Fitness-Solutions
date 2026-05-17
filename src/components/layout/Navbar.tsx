@@ -19,6 +19,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,18 +62,18 @@ export function Navbar() {
                     {link.name}
                   </Link>
                 ))}
-                <div onClick={() => setIsOpen(false)}>
-                  <ContactModal 
-                    text="Contact" 
+                  <button 
+                    onClick={() => { setIsContactOpen(true); setIsOpen(false); }}
                     className="text-2xl font-bold uppercase tracking-wider transition-colors text-white hover:text-neon/80 text-left" 
-                  />
-                </div>
-              </nav>
-            </SheetContent>
-          </Sheet>
-        </div>
-
-        {/* Logo */}
+                  >
+                    Contact
+                  </button>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
+  
+          {/* Logo */}
         <Link href="/" className="flex items-center gap-1 group relative z-10">
           <span className="text-xl sm:text-2xl md:text-3xl font-black tracking-tighter uppercase text-white group-hover:text-neon transition-colors duration-300 whitespace-nowrap">
             <span className="text-neon mr-1 md:mr-2.5">SS</span>
@@ -106,6 +107,13 @@ export function Navbar() {
           <CartDrawer />
         </div>
       </div>
+
+      {isContactOpen && (
+        <ContactModal 
+          isOpenProp={isContactOpen} 
+          onCloseProp={() => setIsContactOpen(false)} 
+        />
+      )}
     </header>
   );
 }

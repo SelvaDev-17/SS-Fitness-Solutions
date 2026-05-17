@@ -4,9 +4,31 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Mail, Phone, X } from "lucide-react";
 
-export function ContactModal({ className, text = "Contact Us" }: { className?: string, text?: string }) {
-  const [isOpen, setIsOpen] = useState(false);
+export function ContactModal({ 
+  className, 
+  text = "Contact Us",
+  isOpenProp,
+  onCloseProp
+}: { 
+  className?: string, 
+  text?: string,
+  isOpenProp?: boolean,
+  onCloseProp?: () => void
+}) {
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  const isOpen = isOpenProp !== undefined ? isOpenProp : internalIsOpen;
+  
+  const handleOpen = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isOpenProp === undefined) setInternalIsOpen(true);
+  };
+
+  const handleClose = () => {
+    if (onCloseProp) onCloseProp();
+    if (isOpenProp === undefined) setInternalIsOpen(false);
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -14,18 +36,26 @@ export function ContactModal({ className, text = "Contact Us" }: { className?: s
 
   return (
     <>
-      <button 
-        onClick={(e) => { e.preventDefault(); setIsOpen(true); }} 
-        className={className || "text-muted-foreground hover:text-neon transition-colors"}
-      >
-        {text}
-      </button>
+      {isOpenProp === undefined && (
+        <button 
+          onClick={handleOpen} 
+          className={className || "text-muted-foreground hover:text-neon transition-colors"}
+        >
+          {text}
+        </button>
+      )}
 
       {isOpen && mounted && createPortal(
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-card border border-neon/30 p-8 rounded-lg shadow-[0_0_20px_rgba(255,255,255,0.2)] max-w-md w-full relative">
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          onClick={handleClose}
+        >
+          <div 
+            className="bg-card border border-neon/30 p-8 rounded-lg shadow-[0_0_20px_rgba(255,255,255,0.2)] max-w-md w-full relative"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button 
-              onClick={() => setIsOpen(false)}
+              onClick={handleClose}
               className="absolute top-4 right-4 text-muted-foreground hover:text-neon transition-colors"
             >
               <X className="w-6 h-6" />
