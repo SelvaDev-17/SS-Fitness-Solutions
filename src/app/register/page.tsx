@@ -30,7 +30,7 @@ export default function RegisterPage() {
         throw new Error(data.message || "Registration failed");
       }
 
-      router.push("/login");
+      window.location.href = "/login";
     } catch (err: any) {
       setError(err.message || "An error occurred. Please try again.");
     } finally {

@@ -36,13 +36,12 @@ export default function LoginPage() {
 
       if (res?.error) {
         setError("Invalid email or password");
+        setLoading(false);
       } else {
-        router.push(callbackUrl);
-        router.refresh();
+        window.location.href = callbackUrl;
       }
     } catch (err) {
       setError("An error occurred. Please try again.");
-    } finally {
       setLoading(false);
     }
   };
