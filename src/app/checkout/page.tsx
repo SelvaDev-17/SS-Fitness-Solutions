@@ -78,10 +78,9 @@ export default function CheckoutPage() {
         prefill: {
           name: session?.user?.name || "",
           email: session?.user?.email || "",
-          contact: "",
         },
         theme: {
-          color: "#39ff14", // Neon Green
+          color: "#ff9900", // Neon Orange
         },
       };
 
@@ -186,7 +185,7 @@ export default function CheckoutPage() {
 
             {/* Payment Summary */}
             <div className="w-full lg:w-96 shrink-0">
-              <div className="bg-card border border-border rounded-lg p-8 sticky top-32 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+              <div className="bg-card border border-border rounded-lg p-6 sm:p-8 lg:sticky lg:top-32 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
                 <h3 className="text-2xl font-bold uppercase tracking-widest text-white mb-6">Summary</h3>
                 
                 <div className="space-y-4 mb-6 text-muted-foreground">
