@@ -48,7 +48,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center relative overflow-hidden px-4">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center relative overflow-y-auto px-4 py-12">
       {/* Background styling */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-neon/5 via-background to-background z-0" />
       

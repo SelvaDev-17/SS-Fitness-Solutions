@@ -39,7 +39,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center relative overflow-hidden px-4 py-12">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center relative overflow-y-auto px-4 py-12">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-neon/5 via-background to-background z-0" />
       
       <Link href="/" className="z-10 mb-8 flex items-center gap-2 group relative">
