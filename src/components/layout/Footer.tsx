@@ -46,11 +46,11 @@ export function Footer() {
           <div className="lg:col-span-2">
             <h4 className="text-white font-bold uppercase tracking-widest mb-6">Shop</h4>
             <ul className="space-y-4">
-              <li><Link href="/products?category=Protein" className="text-muted-foreground hover:text-neon transition-colors">Protein</Link></li>
-              <li><Link href="/products?category=Pre-Workout" className="text-muted-foreground hover:text-neon transition-colors">Pre-Workout</Link></li>
-              <li><Link href="/products?category=Recovery" className="text-muted-foreground hover:text-neon transition-colors">Recovery & BCAAs</Link></li>
-              <li><Link href="/products?category=Vitamins" className="text-muted-foreground hover:text-neon transition-colors">Vitamins & Health</Link></li>
-              <li><Link href="/products" className="text-muted-foreground hover:text-neon transition-colors">All Products</Link></li>
+              <li><Link href="/?category=Protein#shop" className="text-muted-foreground hover:text-neon transition-colors">Protein</Link></li>
+              <li><Link href="/?category=Pre-Workout#shop" className="text-muted-foreground hover:text-neon transition-colors">Pre-Workout</Link></li>
+              <li><Link href="/?category=Recovery#shop" className="text-muted-foreground hover:text-neon transition-colors">Recovery & BCAAs</Link></li>
+              <li><Link href="/?category=Vitamins#shop" className="text-muted-foreground hover:text-neon transition-colors">Vitamins & Health</Link></li>
+              <li><Link href="/#shop" className="text-muted-foreground hover:text-neon transition-colors">All Products</Link></li>
             </ul>
           </div>
 

@@ -1,13 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProductCard } from "@/components/product/ProductCard";
 import { CATEGORIES } from "@/lib/mock-data";
 import { Product } from "@prisma/client";
 
 export function ShopSection({ initialProducts }: { initialProducts: Product[] }) {
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
+  const router = useRouter();
+
+  const [activeCategory, setActiveCategory] = useState<string | null>(categoryParam);
+
+  useEffect(() => {
+    if (categoryParam) {
+      setActiveCategory(categoryParam);
+    } else {
+      setActiveCategory(null);
+    }
+  }, [categoryParam]);
+
+  const handleCategoryClick = (cat: string | null) => {
+    setActiveCategory(cat);
+    if (cat) {
+      router.push(`/?category=${encodeURIComponent(cat)}#shop`, { scroll: false });
+    } else {
+      router.push(`/#shop`, { scroll: false });
+    }
+  };
 
   const products = activeCategory
     ? initialProducts.filter((p) => p.category === activeCategory)
@@ -32,7 +54,7 @@ export function ShopSection({ initialProducts }: { initialProducts: Product[] })
                 <ul className="space-y-0 md:space-y-3 flex flex-row md:flex-col overflow-x-auto md:overflow-visible pb-4 md:pb-0 gap-4 md:gap-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                   <li>
                     <button 
-                      onClick={() => setActiveCategory(null)}
+                      onClick={() => handleCategoryClick(null)}
                       className={`text-lg whitespace-nowrap transition-colors ${!activeCategory ? 'text-neon font-bold' : 'text-muted-foreground hover:text-white'}`}
                     >
                       All Products
@@ -41,7 +63,7 @@ export function ShopSection({ initialProducts }: { initialProducts: Product[] })
                   {CATEGORIES.map((cat) => (
                     <li key={cat}>
                       <button 
-                        onClick={() => setActiveCategory(cat)}
+                        onClick={() => handleCategoryClick(cat)}
                         className={`text-lg whitespace-nowrap transition-colors ${activeCategory === cat ? 'text-neon font-bold' : 'text-muted-foreground hover:text-white'}`}
                       >
                         {cat}

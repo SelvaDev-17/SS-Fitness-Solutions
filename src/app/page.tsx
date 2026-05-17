@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
@@ -63,7 +64,9 @@ export default async function Home() {
 
 
 
-        <ShopSection initialProducts={products} />
+        <Suspense fallback={<div className="py-24 text-center text-neon flex justify-center items-center">Loading shop...</div>}>
+          <ShopSection initialProducts={products} />
+        </Suspense>
         <FAQSection />
         <LocationSection />
         <ReviewsSection />
