@@ -23,8 +23,8 @@ export function ProductCard({ product }: ProductCardProps) {
       transition={{ duration: 0.3 }}
       className="group bg-card rounded-xl border border-border/50 overflow-hidden hover:border-neon/50 transition-all shadow-lg hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] flex flex-col"
     >
-      <Link href={`/products/${product.id}`} className="relative h-64 w-full bg-muted flex-shrink-0 block overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+      <Link href={`/products/${product.id}`} className="relative h-64 w-full bg-white flex-shrink-0 block overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
         <div className="absolute top-3 left-3 z-20 flex flex-col gap-2">
           {product.isFeatured && (
             <motion.span 
@@ -44,7 +44,6 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
         {/* We use a placeholder logic if image fails, but Next Image is robust */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-muted-foreground/20 to-transparent"></div>
         <Image 
           src={product.image} 
           alt={product.name} 

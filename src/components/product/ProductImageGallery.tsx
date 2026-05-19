@@ -17,8 +17,7 @@ export function ProductImageGallery({ name, images }: ProductImageGalleryProps) 
 
   if (images.length === 1) {
     return (
-      <div className="relative aspect-square w-full bg-card rounded-2xl overflow-hidden border border-border flex items-center justify-center p-10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-neon/10 to-transparent"></div>
+      <div className="relative aspect-square w-full bg-white rounded-2xl overflow-hidden border border-border flex items-center justify-center p-10">
         <Image 
           src={images[0]} 
           alt={name} 
@@ -39,8 +38,7 @@ export function ProductImageGallery({ name, images }: ProductImageGalleryProps) 
   };
 
   return (
-    <div className="relative aspect-square w-full bg-card rounded-2xl overflow-hidden border border-border group flex items-center justify-center p-10">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-neon/10 to-transparent z-0"></div>
+    <div className="relative aspect-square w-full bg-white rounded-2xl overflow-hidden border border-border group flex items-center justify-center p-10">
       
       {/* Images */}
       {images.map((img, index) => (

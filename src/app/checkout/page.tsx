@@ -30,12 +30,6 @@ export default function CheckoutPage() {
   const tax = totalPrice * 0.08;
   const finalTotal = totalPrice + shipping + tax;
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login?callbackUrl=/checkout");
-    }
-  }, [status, router]);
-
   const handlePayment = async () => {
     if (items.length === 0) return;
     

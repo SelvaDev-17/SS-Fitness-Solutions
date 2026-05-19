@@ -7,7 +7,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -89,7 +88,12 @@ export default function LoginPage() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-300 uppercase tracking-wider">Password</label>
+            <div className="flex justify-between items-center mt-1">
+              <label className="text-sm font-medium text-gray-300 uppercase tracking-wider">Password</label>
+              <Link href="/forgot-password" className="text-xs text-neon hover:underline">
+                Forgot password?
+              </Link>
+            </div>
             <input
               type="password"
               value={password}

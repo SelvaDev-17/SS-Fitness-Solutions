@@ -60,8 +60,7 @@ export function CartDrawer() {
                     exit={{ opacity: 0, scale: 0.9 }}
                     className="flex gap-4"
                   >
-                    <div className="w-20 h-20 bg-muted rounded-md relative overflow-hidden flex-shrink-0">
-                      <div className="absolute inset-0 bg-gradient-to-tr from-neon/10 to-transparent z-10"></div>
+                    <div className="w-20 h-20 bg-white rounded-md relative overflow-hidden flex-shrink-0">
                       <Image src={item.image} alt={item.name} fill className="object-contain p-1" />
                     </div>
                     <div className="flex-1 flex flex-col justify-between">
@@ -101,12 +100,12 @@ export function CartDrawer() {
         </div>
 
         {items.length > 0 && (
-          <div className="pt-6 border-t border-border mt-auto">
+          <div className="pt-6 border-t border-border mt-auto pb-8 sm:pb-0">
             <div className="flex justify-between text-lg font-bold text-white mb-6">
               <span>Subtotal</span>
               <span>₹{totalPrice.toFixed(2)}</span>
             </div>
-            <Link href="/cart" onClick={() => setIsCartOpen(false)} className="w-full flex items-center justify-center h-12 text-lg font-bold uppercase tracking-widest bg-neon text-neon-foreground hover:bg-neon/90 transition-all shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.6)] rounded-md">
+            <Link href="/checkout" onClick={() => setIsCartOpen(false)} className="w-full flex items-center justify-center h-12 text-lg font-bold uppercase tracking-widest bg-neon text-neon-foreground hover:bg-neon/90 transition-all shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.6)] rounded-md">
               Checkout Now
             </Link>
           </div>
