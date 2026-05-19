@@ -16,9 +16,9 @@ export function HeroSection() {
 
       <div className="container mx-auto px-4 md:px-6 relative z-20 flex flex-col items-center text-center mt-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted border border-border mb-8"
         >
           <Zap className="w-4 h-4 text-neon" />
@@ -26,9 +26,9 @@ export function HeroSection() {
         </motion.div>
 
         <motion.h1 
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+          transition={{ duration: 0.4, delay: 0.05, ease: "easeOut" }}
           className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white uppercase leading-tight md:leading-[0.9] mb-6"
         >
           Unleash Your <br className="hidden sm:block" />
@@ -36,9 +36,9 @@ export function HeroSection() {
         </motion.h1>
 
         <motion.p 
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
           className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 font-medium leading-relaxed px-2"
         >
           Elite supplements engineered for those who refuse to be average. 
@@ -46,9 +46,9 @@ export function HeroSection() {
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.4, delay: 0.15, ease: "easeOut" }}
           className="flex flex-col sm:flex-row gap-4"
         >
           <Link 
