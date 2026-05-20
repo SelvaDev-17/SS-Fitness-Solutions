@@ -251,6 +251,7 @@ export const MOCK_PRODUCTS: Product[] = [
     ],
     image: "/mock-images/on-gold-standard-whey.png",
     category: "Protein",
+    isFeatured: true,
     additionalImages: [
       "/mock-images/on-whey-promo-1.jpg",
       "/mock-images/on-whey-promo-2.png"
@@ -344,7 +345,7 @@ export const MOCK_PRODUCTS: Product[] = [
     ],
     image: "/mock-images/gnc-weight-gainer.png",
     category: "Protein",
-    isFeatured: true,
+    isFeatured: false,
     additionalImages: [
       "/mock-images/gnc-weight-gainer-promo-1.png",
       "/mock-images/gnc-weight-gainer-promo-2.png"

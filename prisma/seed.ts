@@ -34,7 +34,23 @@ async function main() {
       });
       console.log(`Created product: ${product.name}`);
     } else {
-      console.log(`Product already exists: ${product.name}`);
+      await prisma.product.update({
+        where: { id: product.id },
+        data: {
+          name: product.name,
+          price: product.price,
+          rating: product.rating,
+          reviews: product.reviews,
+          description: product.description,
+          features: product.features,
+          image: product.image,
+          category: product.category,
+          isFeatured: product.isFeatured || false,
+          additionalImages: product.additionalImages || [],
+          nutritionalInfo: product.nutritionalInfo as any,
+        }
+      });
+      console.log(`Updated product: ${product.name}`);
     }
   }
 
