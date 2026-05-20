@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { Navbar } from "@/components/layout/Navbar";
@@ -12,21 +11,15 @@ import { CheckCircle2, Loader2, ShieldCheck } from "lucide-react";
 import Script from "next/script";
 
 export default function CheckoutPage() {
-  const { data: session, status } = useSession();
   const router = useRouter();
   const { items, totalPrice, clearCart, totalItems } = useCart();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("upi");
 
-  // Redirect to login if unauthenticated
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login?callbackUrl=/checkout");
-    }
-  }, [status, router]);
-
-  // Delivery details state
+  // Guest Details State
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [deliveryState, setDeliveryState] = useState("");
@@ -40,8 +33,8 @@ export default function CheckoutPage() {
   const handlePayment = async () => {
     if (items.length === 0) return;
     
-    if (!address || !city || !deliveryState || !zip || !phone) {
-      alert("Please fill in all delivery details.");
+    if (!name || !email || !address || !city || !deliveryState || !zip || !phone) {
+      alert("Please fill in all delivery and contact details.");
       return;
     }
     
@@ -55,6 +48,8 @@ export default function CheckoutPage() {
         body: JSON.stringify({ 
           items, 
           total: finalTotal,
+          name,
+          email,
           address,
           city,
           state: deliveryState,
@@ -99,8 +94,8 @@ export default function CheckoutPage() {
           }
         },
         prefill: {
-          name: session?.user?.name || "",
-          email: session?.user?.email || "",
+          name: name,
+          email: email,
           contact: phone,
         },
         theme: {
@@ -121,14 +116,6 @@ export default function CheckoutPage() {
     }
   };
 
-  if (status === "loading") {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="w-10 h-10 animate-spin text-neon" />
-      </div>
-    );
-  }
-
   if (success) {
     return (
       <>
@@ -139,7 +126,7 @@ export default function CheckoutPage() {
               <CheckCircle2 className="w-24 h-24 text-neon mb-6" />
               <h1 className="text-4xl font-black uppercase tracking-widest text-white mb-4">Payment Successful!</h1>
               <p className="text-muted-foreground mb-8 text-lg">
-                Thank you for your order, {session?.user?.name?.split(' ')[0] || 'Athlete'}. Your supplements are being prepared for dispatch.
+                Thank you for your order, {name.split(' ')[0] || 'Athlete'}. Your supplements are being prepared for dispatch.
               </p>
               <Button onClick={() => router.push("/#shop")} className="bg-neon text-neon-foreground hover:bg-neon/90 w-full h-14 text-lg font-bold uppercase tracking-widest rounded-none">
                 Return to Shop
@@ -183,6 +170,31 @@ export default function CheckoutPage() {
 
                 <h3 className="text-2xl font-bold uppercase tracking-widest text-white mb-6">Delivery Details</h3>
                 <div className="space-y-4 mb-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-300 uppercase tracking-wider">Full Name</label>
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon transition-colors"
+                        placeholder="John Doe"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-300 uppercase tracking-wider">Email Address</label>
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon transition-colors"
+                        placeholder="john@example.com"
+                        required
+                      />
+                    </div>
+                  </div>
+
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-300 uppercase tracking-wider">Street Address</label>
                     <input
@@ -194,6 +206,7 @@ export default function CheckoutPage() {
                       required
                     />
                   </div>
+                  
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-gray-300 uppercase tracking-wider">City</label>
@@ -218,6 +231,7 @@ export default function CheckoutPage() {
                       />
                     </div>
                   </div>
+                  
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-gray-300 uppercase tracking-wider">ZIP Code</label>
@@ -318,4 +332,3 @@ export default function CheckoutPage() {
     </>
   );
 }
-

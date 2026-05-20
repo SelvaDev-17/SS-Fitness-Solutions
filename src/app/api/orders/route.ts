@@ -1,6 +1,4 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
 import Razorpay from "razorpay";
 import { prisma } from "@/lib/prisma";
 
@@ -11,20 +9,34 @@ const razorpay = new Razorpay({
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
-    
-    if (!session || !session.user || !(session.user as any).id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const { items, total, address, city, state, zip, phone } = await req.json();
+    const { items, total, name, email, address, city, state, zip, phone } = await req.json();
 
     if (!items || items.length === 0) {
       return NextResponse.json({ error: "No items in order" }, { status: 400 });
     }
 
-    if (!address || !city || !state || !zip || !phone) {
-      return NextResponse.json({ error: "Incomplete delivery details" }, { status: 400 });
+    if (!name || !email || !address || !city || !state || !zip || !phone) {
+      return NextResponse.json({ error: "Incomplete checkout details" }, { status: 400 });
+    }
+
+    // Find or create user dynamically by email
+    let dbUser = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() }
+    });
+
+    if (!dbUser) {
+      dbUser = await prisma.user.create({
+        data: {
+          name: name,
+          email: email.toLowerCase(),
+          role: "USER"
+        }
+      });
+    } else if (name && dbUser.name !== name) {
+      dbUser = await prisma.user.update({
+        where: { id: dbUser.id },
+        data: { name: name }
+      });
     }
 
     // 1. Create a Razorpay Order
@@ -39,7 +51,7 @@ export async function POST(req: Request) {
     // 2. Save the order in the database
     const dbOrder = await prisma.order.create({
       data: {
-        userId: (session.user as any).id,
+        userId: dbUser.id,
         total: total,
         paymentId: order.id, // Store Razorpay order ID temporarily, update on success
         status: "PENDING",
