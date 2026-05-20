@@ -36,12 +36,13 @@ export function ShopSection({ initialProducts }: { initialProducts: Product[] })
     : initialProducts;
 
   return (
-    <section id="shop" className="py-24 relative bg-background">
+    <section id="shop" className="py-24 relative bg-[#F9FAFB]">
       <div className="container mx-auto px-4 md:px-6">
         <SectionHeading 
           title="All Products" 
           subtitle="Engineered for peak performance and absolute purity."
           centered={true}
+          light={true}
         />
 
         <div className="flex flex-col md:flex-row gap-8 mt-12">
@@ -49,13 +50,13 @@ export function ShopSection({ initialProducts }: { initialProducts: Product[] })
           <aside className="w-full md:w-64 shrink-0">
             <div className="md:sticky md:top-32 space-y-8">
               <div>
-                <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-4">Categories</h3>
+                <h3 className="text-xl font-bold uppercase tracking-widest text-zinc-900 mb-4">Categories</h3>
                 <div className="w-12 h-[2px] bg-neon mb-6"></div>
                 <ul className="space-y-0 md:space-y-3 flex flex-row md:flex-col overflow-x-auto md:overflow-visible pb-4 md:pb-0 gap-4 md:gap-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                   <li>
                     <button 
                       onClick={() => handleCategoryClick(null)}
-                      className={`text-lg whitespace-nowrap transition-colors ${!activeCategory ? 'text-neon font-bold' : 'text-muted-foreground hover:text-white'}`}
+                      className={`text-lg whitespace-nowrap transition-colors ${!activeCategory ? 'text-neon font-bold' : 'text-zinc-500 hover:text-zinc-900'}`}
                     >
                       All Products
                     </button>
@@ -64,7 +65,7 @@ export function ShopSection({ initialProducts }: { initialProducts: Product[] })
                     <li key={cat}>
                       <button 
                         onClick={() => handleCategoryClick(cat)}
-                        className={`text-lg whitespace-nowrap transition-colors ${activeCategory === cat ? 'text-neon font-bold' : 'text-muted-foreground hover:text-white'}`}
+                        className={`text-lg whitespace-nowrap transition-colors ${activeCategory === cat ? 'text-neon font-bold' : 'text-zinc-500 hover:text-zinc-900'}`}
                       >
                         {cat}
                       </button>
@@ -84,9 +85,9 @@ export function ShopSection({ initialProducts }: { initialProducts: Product[] })
                 ))}
               </div>
             ) : (
-              <div className="text-center py-24 border border-border bg-card">
-                <h3 className="text-2xl font-bold text-white mb-2">No products found</h3>
-                <p className="text-muted-foreground">Try selecting a different category.</p>
+              <div className="text-center py-24 border border-[#E5E7EB] bg-white rounded-2xl shadow-sm">
+                <h3 className="text-2xl font-bold text-black mb-2">No products found</h3>
+                <p className="text-zinc-500">Try selecting a different category.</p>
               </div>
             )}
           </div>

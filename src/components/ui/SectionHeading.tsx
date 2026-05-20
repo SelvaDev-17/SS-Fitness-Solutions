@@ -5,16 +5,17 @@ interface SectionHeadingProps {
   subtitle?: string;
   className?: string;
   centered?: boolean;
+  light?: boolean;
 }
 
-export function SectionHeading({ title, subtitle, className, centered = true }: SectionHeadingProps) {
+export function SectionHeading({ title, subtitle, className, centered = true, light = false }: SectionHeadingProps) {
   return (
     <div className={cn("mb-12", centered && "text-center", className)}>
-      <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white mb-4">
+      <h2 className={cn("text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4", light ? "text-zinc-900" : "text-white")}>
         {title}
       </h2>
       {subtitle && (
-        <p className="text-muted-foreground max-w-2xl text-lg font-medium mx-auto">
+        <p className={cn("max-w-2xl text-lg font-medium mx-auto", light ? "text-zinc-500" : "text-muted-foreground")}>
           {subtitle}
         </p>
       )}

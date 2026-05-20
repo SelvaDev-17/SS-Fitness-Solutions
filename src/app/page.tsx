@@ -28,11 +28,12 @@ export default async function Home() {
         <HeroSection />
 
         {/* Featured Products */}
-        <section className="py-24 bg-card/30 relative">
+        <section className="py-24 bg-[#F9FAFB] relative">
           <div className="container mx-auto px-4 md:px-6">
             <SectionHeading 
               title="Elite Formulations" 
               subtitle="Our best-selling, scientifically backed supplements for maximum performance."
+              light={true}
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
               {featuredProducts.map(product => (

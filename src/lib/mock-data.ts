@@ -328,5 +328,26 @@ export const MOCK_PRODUCTS: Product[] = [
       "/mock-images/mb-lcarnitine-promo-1.png",
       "/mock-images/mb-lcarnitine-promo-2.png"
     ]
+  },
+  {
+    id: "p17",
+    name: "GNC Pro Performance Weight Gainer | 3kg | 73g Protein & 2200 Calories for Muscle Growth",
+    price: 2399,
+    rating: 4.8,
+    reviews: 420,
+    description: "GNC Pro Performance Weight Gainer is formulated to help athletes and fitness enthusiasts achieve extreme weight gain goals. Packed with 73g of high-quality protein, 2200 calories, and 440g of carbohydrates, it supplies the necessary nutrients for clean muscle mass gains and faster post-workout recovery.",
+    features: ["73g Protein per serving", "2200 Calories", "440g Carbohydrates", "Net WT: 3 kg (6.6 lbs)", "Flavor: Double Chocolate"],
+    nutritionalInfo: [
+      { label: "Protein", value: "73g" },
+      { label: "Calories", value: "2200" },
+      { label: "Carbs", value: "440g" },
+    ],
+    image: "/mock-images/gnc-weight-gainer.png",
+    category: "Protein",
+    isFeatured: true,
+    additionalImages: [
+      "/mock-images/gnc-weight-gainer-promo-1.png",
+      "/mock-images/gnc-weight-gainer-promo-2.png"
+    ]
   }
 ];
