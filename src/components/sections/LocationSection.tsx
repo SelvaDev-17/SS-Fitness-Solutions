@@ -12,7 +12,7 @@ const STORE_IMAGES = [
 
 export function LocationSection() {
   return (
-    <section id="location" className="py-24 bg-card/30 relative border-t border-border">
+    <section id="location" className="py-24 bg-zinc-950/60 relative border-t border-zinc-900">
       <div className="container mx-auto px-4 md:px-6">
         <SectionHeading 
           title="Our Location" 
@@ -22,14 +22,14 @@ export function LocationSection() {
         
         <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Shop Image Slideshow */}
-          <div className="h-[400px] lg:h-[600px] bg-muted border border-border rounded-lg overflow-hidden flex items-center justify-center relative group">
+          <div className="h-[400px] lg:h-[600px] bg-zinc-950 border border-zinc-800/80 rounded-lg overflow-hidden flex items-center justify-center relative group">
             <div className="absolute inset-0 bg-neon/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"></div>
             <ImageSlideshow images={STORE_IMAGES} />
           </div>
 
           {/* Venues */}
           <div className="flex flex-col justify-center space-y-6">
-            <div className="bg-card border border-border p-6 rounded-lg hover:border-neon transition-colors">
+            <div className="bg-zinc-900/30 border border-zinc-800/80 p-6 rounded-lg hover:border-neon transition-colors">
               <h3 className="text-xl font-bold uppercase text-white mb-2 flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-neon"></div>
                 Alwarpet (Flagship Store)
