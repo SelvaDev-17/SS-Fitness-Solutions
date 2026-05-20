@@ -49,10 +49,20 @@ export default async function Home() {
         </section>
 
         {/* Categories */}
-        <section className="py-24 relative overflow-hidden border-y border-border">
-          <div className="absolute top-1/2 left-0 w-full h-[1px] bg-border/50"></div>
+        <section className="py-28 relative overflow-hidden border-y border-zinc-900 bg-black/40">
+          <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-neon/20 to-transparent"></div>
+          <div className="absolute -top-40 left-1/4 w-96 h-96 rounded-full bg-neon/5 blur-[120px] pointer-events-none"></div>
+          <div className="absolute -bottom-40 right-1/4 w-96 h-96 rounded-full bg-neon/5 blur-[120px] pointer-events-none"></div>
+          
           <div className="container mx-auto px-4 md:px-6 relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <SectionHeading 
+              title="Shop by Category" 
+              subtitle="Target your specific fitness goals with our curated formulations."
+              centered={true}
+              light={false}
+            />
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
               {CATEGORIES.map((category, index) => {
                 const categoryImages = products.filter(p => p.category === category).map(p => p.image);
                 return (
