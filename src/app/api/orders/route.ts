@@ -65,10 +65,10 @@ export async function POST(req: Request) {
       dbOrderId: dbOrder.id,
       key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY_ID || "rzp_test_mock"
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("ORDER_CREATE_ERROR", error);
     return NextResponse.json(
-      { error: "Failed to create order" },
+      { error: `Failed to create order: ${error?.message || error || "Unknown error"}` },
       { status: 500 }
     );
   }
