@@ -12,7 +12,7 @@ const STORE_IMAGES = [
 
 export function LocationSection() {
   return (
-    <section id="location" className="py-24 bg-zinc-950/60 relative border-t border-zinc-900">
+    <section id="location" className="py-24 bg-black relative border-t border-zinc-900">
       <div className="container mx-auto px-4 md:px-6">
         <SectionHeading 
           title="Our Location" 

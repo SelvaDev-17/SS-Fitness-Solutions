@@ -31,7 +31,7 @@ const FAQS = [
 
 export function FAQSection() {
   return (
-    <section id="faq" className="py-24 bg-zinc-950 relative border-t border-zinc-900 overflow-hidden">
+    <section id="faq" className="py-24 bg-black relative border-t border-zinc-900 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
         <SectionHeading 
           title="Frequently Asked Questions" 

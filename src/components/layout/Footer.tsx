@@ -10,7 +10,7 @@ import { TermsOfServiceModal } from "./TermsOfServiceModal";
 
 export function Footer() {
   return (
-    <footer className="bg-card border-t border-border pt-16 pb-8 relative overflow-hidden">
+    <footer className="bg-black border-t border-zinc-900 pt-16 pb-8 relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-neon/50 to-transparent"></div>
       
       <div className="container mx-auto px-4 md:px-6">
@@ -80,7 +80,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+        <div className="pt-8 border-t border-zinc-900/50 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} SS Fitness Solutions. All rights reserved.</p>
           <div className="flex gap-6">
             <PrivacyPolicyModal />

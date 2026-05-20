@@ -156,7 +156,7 @@ const ROW2_DUP = [...ROW2, ...ROW2];
 
 function ReviewCard({ review }: { review: typeof REVIEWS[0] }) {
   return (
-    <div className="bg-card border border-border p-8 rounded-lg hover:border-neon/50 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all duration-300 group flex flex-col h-full relative overflow-hidden w-[350px] md:w-[450px] shrink-0 mr-8">
+    <div className="bg-zinc-900/30 border border-zinc-800/80 p-8 rounded-lg hover:border-neon/50 hover:shadow-[0_0_20px_rgba(255,107,0,0.15)] transition-all duration-300 group flex flex-col h-full relative overflow-hidden w-[350px] md:w-[450px] shrink-0 mr-8">
       <div className="absolute top-0 left-0 w-1 h-full bg-neon/20 group-hover:bg-neon transition-colors duration-300"></div>
       <div className="flex items-center gap-1 mb-6">
         {[...Array(5)].map((_, i) => {
@@ -180,7 +180,7 @@ function ReviewCard({ review }: { review: typeof REVIEWS[0] }) {
       <p className="text-muted-foreground leading-relaxed flex-1 italic text-lg mb-8 whitespace-pre-line">
         {review.text ? `"${review.text}"` : ""}
       </p>
-      <div className="flex items-center justify-between mt-auto pt-6 border-t border-border/50">
+      <div className="flex items-center justify-between mt-auto pt-6 border-t border-zinc-800/50">
         <h3 className="text-white font-bold uppercase tracking-wide">{review.name}</h3>
         <span className="text-sm text-muted-foreground">{review.date}</span>
       </div>
@@ -190,7 +190,7 @@ function ReviewCard({ review }: { review: typeof REVIEWS[0] }) {
 
 export function ReviewsSection() {
   return (
-    <section id="reviews" className="py-24 bg-background relative border-t border-border overflow-hidden">
+    <section id="reviews" className="py-24 bg-black relative border-t border-zinc-900 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 mb-16">
         <SectionHeading 
           title="Customer Reviews" 
