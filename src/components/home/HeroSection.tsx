@@ -7,6 +7,30 @@ import { ArrowRight, Zap } from "lucide-react";
 export function HeroSection() {
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-20">
+      {/* Dynamic Fluid Moving Gradient Style */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes fluid-gradient {
+          0% { background-position: 0% center; }
+          50% { background-position: 100% center; }
+          100% { background-position: 200% center; }
+        }
+        .animate-fluid-gradient {
+          background: linear-gradient(
+            to right,
+            #ff3700 0%,
+            #ff7300 20%,
+            #ffa200 40%,
+            #ff7300 60%,
+            #ff3700 80%,
+            #ff7300 100%
+          );
+          background-size: 200% auto;
+          animation: fluid-gradient 4.5s linear infinite;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+      `}} />
       {/* Background Elements */}
       <div className="absolute inset-0 bg-background z-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-neon/10 via-background to-background" />
@@ -32,7 +56,7 @@ export function HeroSection() {
           className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white uppercase leading-tight md:leading-[0.9] mb-6"
         >
           Unleash Your <br className="hidden sm:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon to-[#ff9900]">True Potential</span>
+          <span className="animate-fluid-gradient bg-clip-text">True Potential</span>
         </motion.h1>
 
         <motion.p 
