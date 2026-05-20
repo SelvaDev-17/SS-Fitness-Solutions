@@ -193,46 +193,47 @@ export function Navbar() {
 
       {/* Search Overlay */}
       {isSearchOpen && (
-        <div className="fixed inset-0 bg-background/95 backdrop-blur-md z-50 flex justify-center items-start pt-32 px-4 md:px-6 overflow-y-auto pb-10">
-          <div className="w-full max-w-3xl flex flex-col gap-8 relative">
-            {/* Close Button */}
-            <button
-              onClick={() => setIsSearchOpen(false)}
-              className="absolute -top-16 right-0 text-gray-400 hover:text-white p-2.5 transition-all duration-300 bg-zinc-900/60 hover:bg-zinc-900/90 rounded-full border border-border/50 hover:scale-105 active:scale-95 flex items-center justify-center"
-              aria-label="Close search"
-            >
-              <X className="w-6 h-6" />
-            </button>
-
-            {/* Input Container */}
-            <div className="relative border-b border-zinc-800 pb-4 flex items-center group">
-              <Search className="w-7 h-7 md:w-8 md:h-8 text-zinc-500 mr-4 group-focus-within:text-neon transition-colors" />
-              <input
-                ref={searchInputRef}
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products, categories, features..."
-                className="w-full bg-transparent text-2xl md:text-3xl text-white outline-none placeholder-zinc-600 font-black tracking-tight"
-              />
-              {isFetchingProducts ? (
-                <Loader2 className="w-6 h-6 text-neon animate-spin shrink-0" />
-              ) : searchQuery ? (
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="text-zinc-500 hover:text-white transition-colors"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              ) : (
-                <span className="hidden sm:inline text-xs font-bold text-zinc-500 bg-zinc-900 px-2.5 py-1.5 rounded-md border border-zinc-800 shrink-0 select-none">
-                  ESC
-                </span>
-              )}
+        <div className="fixed inset-0 bg-background/95 backdrop-blur-md z-50 flex justify-center items-start pt-6 sm:pt-16 md:pt-28 px-4 md:px-6 overflow-y-auto pb-10">
+          <div className="w-full max-w-3xl flex flex-col gap-6 md:gap-8 relative">
+            {/* Search Header Row (Input + Close Button) */}
+            <div className="flex items-center gap-3 md:gap-4 border-b border-zinc-800 pb-3 md:pb-4 w-full">
+              <div className="relative flex-1 flex items-center group">
+                <Search className="w-5 h-5 md:w-7 md:h-7 text-zinc-500 mr-2 md:mr-3 group-focus-within:text-neon transition-colors shrink-0" />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search products..."
+                  className="w-full bg-transparent text-lg sm:text-xl md:text-2xl text-white outline-none placeholder-zinc-600 font-bold md:font-black tracking-tight"
+                />
+                {isFetchingProducts ? (
+                  <Loader2 className="w-5 h-5 text-neon animate-spin shrink-0 ml-2" />
+                ) : searchQuery ? (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="text-zinc-500 hover:text-white transition-colors ml-2"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                ) : (
+                  <span className="hidden sm:inline text-xs font-bold text-zinc-500 bg-zinc-900 px-2 py-1 rounded-md border border-zinc-800 shrink-0 select-none ml-2">
+                    ESC
+                  </span>
+                )}
+              </div>
+              
+              <button
+                onClick={() => setIsSearchOpen(false)}
+                className="text-gray-400 hover:text-white p-2 transition-all duration-300 bg-zinc-900/60 hover:bg-zinc-900/90 rounded-full border border-border/50 flex items-center justify-center shrink-0 hover:scale-105 active:scale-95"
+                aria-label="Close search"
+              >
+                <X className="w-5 h-5 md:w-6 h-6" />
+              </button>
             </div>
 
             {/* Results / Suggestions Container */}
-            <div className="flex flex-col gap-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="flex flex-col gap-4 max-h-[70vh] sm:max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
               {searchQuery.trim() === "" ? (
                 <div className="space-y-6">
                   <div>
@@ -291,7 +292,7 @@ export function Navbar() {
                         <p className="text-xs text-zinc-500 uppercase font-semibold">{product.category}</p>
                       </div>
                       <div className="text-right shrink-0">
-                        <span className="font-black text-neon text-lg">₹{product.price.toFixed(2)}</span>
+                        <span className="font-black text-neon text-base sm:text-lg">₹{product.price.toFixed(2)}</span>
                       </div>
                     </Link>
                   ))}
