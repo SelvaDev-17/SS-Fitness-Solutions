@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { clsx } from "clsx";
 
 interface ProductImageGalleryProps {
@@ -12,8 +12,6 @@ interface ProductImageGalleryProps {
 
 export function ProductImageGallery({ name, images }: ProductImageGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
-  const [isZoomed, setIsZoomed] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
   if (!images || images.length === 0) return null;
@@ -24,14 +22,6 @@ export function ProductImageGallery({ name, images }: ProductImageGalleryProps) 
 
   const goToPrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  };
-
-  // Magnifier / Zoom Effect logic
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - left) / width) * 100;
-    const y = ((e.clientY - top) / height) * 100;
-    setZoomPos({ x, y });
   };
 
   // Touch handlers for mobile swipe
@@ -68,23 +58,12 @@ export function ProductImageGallery({ name, images }: ProductImageGalleryProps) 
     <div className="flex flex-col gap-6 w-full">
       {/* Main Showcase Container */}
       <div 
-        className="relative aspect-square w-full bg-white rounded-3xl overflow-hidden border border-border/80 shadow-[0_15px_50px_-15px_rgba(0,0,0,0.6)] flex items-center justify-center p-8 group cursor-zoom-in transition-all duration-500 hover:shadow-[0_20px_60px_-10px_rgba(255,153,0,0.12)]"
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsZoomed(true)}
-        onMouseLeave={() => {
-          setIsZoomed(false);
-          setZoomPos({ x: 50, y: 50 });
-        }}
+        className="relative aspect-square w-full bg-white rounded-3xl overflow-hidden border border-border/80 shadow-[0_15px_50px_-15px_rgba(0,0,0,0.6)] flex items-center justify-center p-8 group transition-all duration-500 hover:shadow-[0_20px_60px_-10px_rgba(255,153,0,0.12)]"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
         {/* Glow behind product */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,153,0,0.03)_0%,_transparent_70%)] z-0 pointer-events-none" />
-
-        {/* Zoom Indicator Icon (only shows when not zoomed and hovered) */}
-        <div className="absolute top-4 right-4 z-20 bg-black/60 text-white p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none flex items-center justify-center">
-          <ZoomIn className="w-5 h-5 text-neon" />
-        </div>
 
         {/* Sliding Images Container */}
         <div className="relative w-full h-full flex items-center justify-center z-10 overflow-hidden">
@@ -104,17 +83,7 @@ export function ProductImageGallery({ name, images }: ProductImageGalleryProps) 
                       : "translate-x-full opacity-0 scale-90 rotate-3 z-0 pointer-events-none"
                 )}
               >
-                <div 
-                  className="relative w-full h-full transition-transform duration-200 ease-out"
-                  style={
-                    isActive && isZoomed
-                      ? {
-                          transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
-                          transform: "scale(1.8)",
-                        }
-                      : undefined
-                  }
-                >
+                <div className="relative w-full h-full">
                   <Image 
                     src={img} 
                     alt={`${name} image ${index + 1}`} 
