@@ -9,26 +9,27 @@ export function HeroSection() {
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-20">
       {/* Dynamic Fluid Moving Gradient Style */}
       <style dangerouslySetInnerHTML={{__html: `
-        @keyframes fluid-gradient {
-          0% { background-position: 0% center; }
-          50% { background-position: 100% center; }
-          100% { background-position: 200% center; }
+        @keyframes fluid-motion {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 80%; }
+          100% { background-position: 0% 50%; }
         }
         .animate-fluid-gradient {
           background: linear-gradient(
-            to right,
-            #ff3700 0%,
-            #ff7300 20%,
-            #ffa200 40%,
-            #ff7300 60%,
-            #ff3700 80%,
-            #ff7300 100%
+            -45deg,
+            #ff1a00,
+            #ff6000,
+            #ffb300,
+            #ff0055,
+            #ff7a00,
+            #ffd000
           );
-          background-size: 200% auto;
-          animation: fluid-gradient 4.5s linear infinite;
+          background-size: 400% 400%;
+          animation: fluid-motion 6s ease-in-out infinite;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
+          filter: drop-shadow(0 0 15px rgba(255, 119, 0, 0.35));
         }
       `}} />
       {/* Background Elements */}
