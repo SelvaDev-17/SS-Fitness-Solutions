@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Menu, X, Search, Loader2 } from "lucide-react";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
 import { ContactModal } from "./ContactModal";
+import Image from "next/image";
 
 const NAV_LINKS = [
   { name: "Home", href: "/" },
@@ -21,6 +22,13 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
 
+  // Search states
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [allProducts, setAllProducts] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isFetchingProducts, setIsFetchingProducts] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -28,6 +36,67 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Fetch products when search is opened
+  useEffect(() => {
+    if (isSearchOpen && allProducts.length === 0) {
+      setIsFetchingProducts(true);
+      fetch("/api/products")
+        .then((res) => res.json())
+        .then((data) => {
+          if (Array.isArray(data)) {
+            setAllProducts(data);
+          }
+        })
+        .catch((err) => console.error("Error fetching products", err))
+        .finally(() => setIsFetchingProducts(false));
+    }
+  }, [isSearchOpen, allProducts]);
+
+  // Lock body scroll and focus input when search is opened
+  useEffect(() => {
+    if (isSearchOpen) {
+      document.body.style.overflow = "hidden";
+      setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 100);
+    } else {
+      document.body.style.overflow = "";
+      setSearchQuery("");
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isSearchOpen]);
+
+  // Keyboard shortcut listener (Ctrl+K to open, Esc to close)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsSearchOpen((prev) => !prev);
+      } else if (e.key === "Escape") {
+        setIsSearchOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Filter products based on search query
+  const filteredProducts = searchQuery.trim() !== ""
+    ? allProducts.filter((product) => {
+        const query = searchQuery.toLowerCase();
+        return (
+          product.name.toLowerCase().includes(query) ||
+          product.category.toLowerCase().includes(query) ||
+          product.description.toLowerCase().includes(query) ||
+          (product.features && product.features.some((f: string) => f.toLowerCase().includes(query)))
+        );
+      })
+    : [];
+
+  const featuredProducts = allProducts.filter((p) => p.isFeatured).slice(0, 4);
 
   return (
     <header
@@ -102,8 +171,15 @@ export function Navbar() {
           />
         </nav>
 
-        {/* Cart */}
-        <div className="flex items-center gap-4">
+        {/* Search & Cart */}
+        <div className="flex items-center gap-2 sm:gap-4 relative z-10">
+          <button
+            onClick={() => setIsSearchOpen(true)}
+            className="text-gray-300 hover:text-neon p-2.5 transition-colors duration-300 relative flex items-center justify-center hover:scale-110 active:scale-95"
+            aria-label="Open search"
+          >
+            <Search className="w-5 h-5 sm:w-6 sm:h-6" />
+          </button>
           <CartDrawer />
         </div>
       </div>
@@ -113,6 +189,122 @@ export function Navbar() {
           isOpenProp={isContactOpen} 
           onCloseProp={() => setIsContactOpen(false)} 
         />
+      )}
+
+      {/* Search Overlay */}
+      {isSearchOpen && (
+        <div className="fixed inset-0 bg-background/95 backdrop-blur-md z-50 flex justify-center items-start pt-32 px-4 md:px-6 overflow-y-auto pb-10">
+          <div className="w-full max-w-3xl flex flex-col gap-8 relative">
+            {/* Close Button */}
+            <button
+              onClick={() => setIsSearchOpen(false)}
+              className="absolute -top-16 right-0 text-gray-400 hover:text-white p-2.5 transition-all duration-300 bg-zinc-900/60 hover:bg-zinc-900/90 rounded-full border border-border/50 hover:scale-105 active:scale-95 flex items-center justify-center"
+              aria-label="Close search"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Input Container */}
+            <div className="relative border-b border-zinc-800 pb-4 flex items-center group">
+              <Search className="w-7 h-7 md:w-8 md:h-8 text-zinc-500 mr-4 group-focus-within:text-neon transition-colors" />
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search products, categories, features..."
+                className="w-full bg-transparent text-2xl md:text-3xl text-white outline-none placeholder-zinc-600 font-black tracking-tight"
+              />
+              {isFetchingProducts ? (
+                <Loader2 className="w-6 h-6 text-neon animate-spin shrink-0" />
+              ) : searchQuery ? (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="text-zinc-500 hover:text-white transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              ) : (
+                <span className="hidden sm:inline text-xs font-bold text-zinc-500 bg-zinc-900 px-2.5 py-1.5 rounded-md border border-zinc-800 shrink-0 select-none">
+                  ESC
+                </span>
+              )}
+            </div>
+
+            {/* Results / Suggestions Container */}
+            <div className="flex flex-col gap-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+              {searchQuery.trim() === "" ? (
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="text-xs font-bold text-neon uppercase tracking-widest mb-3">Suggested Formulations</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {featuredProducts.length > 0 ? (
+                        featuredProducts.map((product) => (
+                          <Link
+                            key={product.id}
+                            href={`/products/${product.id}`}
+                            onClick={() => setIsSearchOpen(false)}
+                            className="flex items-center gap-4 p-3 bg-zinc-900/30 hover:bg-zinc-900/60 border border-zinc-800/60 hover:border-zinc-700/80 rounded-xl transition-all duration-300 group"
+                          >
+                            <div className="relative w-12 h-12 bg-white rounded-lg p-1.5 shrink-0 flex items-center justify-center">
+                              <Image
+                                src={product.image}
+                                alt={product.name}
+                                fill
+                                className="object-contain p-1"
+                                unoptimized
+                              />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h5 className="font-bold text-sm text-white group-hover:text-neon transition-colors truncate">{product.name}</h5>
+                              <p className="text-xs text-zinc-500 uppercase font-semibold">{product.category}</p>
+                            </div>
+                          </Link>
+                        ))
+                      ) : (
+                        <p className="text-sm text-zinc-500">Loading products...</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : filteredProducts.length > 0 ? (
+                <div className="space-y-3">
+                  <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">Search Results ({filteredProducts.length})</h4>
+                  {filteredProducts.map((product) => (
+                    <Link
+                      key={product.id}
+                      href={`/products/${product.id}`}
+                      onClick={() => setIsSearchOpen(false)}
+                      className="flex items-center gap-4 p-4 bg-zinc-900/20 hover:bg-zinc-900/60 border border-zinc-800/40 hover:border-neon/20 rounded-xl transition-all duration-300 group"
+                    >
+                      <div className="relative w-14 h-14 bg-white rounded-lg p-1.5 shrink-0 flex items-center justify-center">
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          fill
+                          className="object-contain p-1"
+                          unoptimized
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h5 className="font-bold text-white group-hover:text-neon transition-colors truncate">{product.name}</h5>
+                        <p className="text-xs text-zinc-500 uppercase font-semibold">{product.category}</p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <span className="font-black text-neon text-lg">₹{product.price.toFixed(2)}</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-zinc-500 text-lg">No formulations matching &quot;{searchQuery}&quot;</p>
+                  <p className="text-sm text-zinc-600 mt-1">Check spelling or search for categories like Whey, Creatine, Gainer, etc.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       )}
     </header>
   );
