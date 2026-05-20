@@ -32,7 +32,7 @@ export function LocationSection() {
             <div className="bg-zinc-900/30 border border-zinc-800/80 p-6 rounded-lg hover:border-neon transition-colors">
               <h3 className="text-xl font-bold uppercase text-white mb-2 flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-neon"></div>
-                Alwarpet (Flagship Store)
+                Alwarpet
               </h3>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 Shop No.7, Saptagiri Complex, TTK Rd<br />
