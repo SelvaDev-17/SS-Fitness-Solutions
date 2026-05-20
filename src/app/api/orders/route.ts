@@ -11,6 +11,10 @@ const razorpay = new Razorpay({
 
 export async function POST(req: Request) {
   try {
+    const host = req.headers.get("x-forwarded-host") || req.headers.get("host") || "localhost:3000";
+    const proto = req.headers.get("x-forwarded-proto") || (host.includes("localhost") || host.includes("192.168") ? "http" : "https");
+    process.env.NEXTAUTH_URL = `${proto}://${host}`;
+
     const session = await getServerSession(authOptions);
     
     if (!session || !session.user || !(session.user as any).id) {

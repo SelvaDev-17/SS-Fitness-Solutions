@@ -19,6 +19,13 @@ export default function CheckoutPage() {
   const [success, setSuccess] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("upi");
 
+  // Redirect to login if unauthenticated
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login?callbackUrl=/checkout");
+    }
+  }, [status, router]);
+
   // Delivery details state
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");

@@ -6,6 +6,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProductCard } from "@/components/product/ProductCard";
 import { CATEGORIES } from "@/lib/mock-data";
 import { Product } from "@prisma/client";
+import { Search, X } from "lucide-react";
 
 export function ShopSection({ initialProducts }: { initialProducts: Product[] }) {
   const searchParams = useSearchParams();
@@ -13,6 +14,7 @@ export function ShopSection({ initialProducts }: { initialProducts: Product[] })
   const router = useRouter();
 
   const [activeCategory, setActiveCategory] = useState<string | null>(categoryParam);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (categoryParam) {
@@ -31,9 +33,23 @@ export function ShopSection({ initialProducts }: { initialProducts: Product[] })
     }
   };
 
-  const products = activeCategory
-    ? initialProducts.filter((p) => p.category === activeCategory)
+  // 1. First filter by search text matching name, description, category, or key features
+  const searchedProducts = searchQuery.trim() !== ""
+    ? initialProducts.filter((p) => {
+        const query = searchQuery.toLowerCase();
+        return (
+          p.name.toLowerCase().includes(query) ||
+          p.description.toLowerCase().includes(query) ||
+          p.category.toLowerCase().includes(query) ||
+          p.features.some((f) => f.toLowerCase().includes(query))
+        );
+      })
     : initialProducts;
+
+  // 2. Second filter by active category selection
+  const products = activeCategory
+    ? searchedProducts.filter((p) => p.category === activeCategory)
+    : searchedProducts;
 
   return (
     <section id="shop" className="py-24 relative bg-[#F9FAFB]">
@@ -49,6 +65,32 @@ export function ShopSection({ initialProducts }: { initialProducts: Product[] })
           {/* Sidebar / Filters */}
           <aside className="w-full md:w-64 shrink-0">
             <div className="md:sticky md:top-32 space-y-8">
+              {/* Search Bar */}
+              <div className="relative">
+                <h3 className="text-xl font-bold uppercase tracking-widest text-zinc-900 mb-4">Search</h3>
+                <div className="w-12 h-[2px] bg-neon mb-5"></div>
+                <div className="relative flex items-center">
+                  <Search className="absolute left-4 text-zinc-400 w-5 h-5 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search products..."
+                    className="w-full pl-12 pr-10 py-3 bg-white border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-neon focus:ring-1 focus:ring-neon transition-all duration-300 shadow-sm text-sm"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery("")}
+                      className="absolute right-4 text-zinc-400 hover:text-zinc-900 transition-colors"
+                      aria-label="Clear search"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Categories */}
               <div>
                 <h3 className="text-xl font-bold uppercase tracking-widest text-zinc-900 mb-4">Categories</h3>
                 <div className="w-12 h-[2px] bg-neon mb-6"></div>
@@ -85,9 +127,22 @@ export function ShopSection({ initialProducts }: { initialProducts: Product[] })
                 ))}
               </div>
             ) : (
-              <div className="text-center py-24 border border-[#E5E7EB] bg-white rounded-2xl shadow-sm">
+              <div className="text-center py-24 border border-[#E5E7EB] bg-white rounded-2xl shadow-sm px-6">
                 <h3 className="text-2xl font-bold text-black mb-2">No products found</h3>
-                <p className="text-zinc-500">Try selecting a different category.</p>
+                <p className="text-zinc-500 mb-6">
+                  {searchQuery 
+                    ? `We couldn't find any products matching "${searchQuery}".`
+                    : "Try selecting a different category."
+                  }
+                </p>
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="inline-flex items-center justify-center bg-neon text-neon-foreground hover:bg-neon/90 font-bold tracking-widest uppercase rounded-none h-12 px-8 transition-colors shadow-lg shadow-neon/10"
+                  >
+                    Clear Search
+                  </button>
+                )}
               </div>
             )}
           </div>
