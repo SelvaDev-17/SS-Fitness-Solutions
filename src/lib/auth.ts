@@ -4,6 +4,11 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./prisma";
 import bcrypt from "bcrypt";
 
+// Ensure NEXTAUTH_URL is set to production URL when running in production
+if (process.env.NODE_ENV === "production") {
+  process.env.NEXTAUTH_URL = "https://ss-fitness-solutions.vercel.app";
+}
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as any,
   secret: process.env.NEXTAUTH_SECRET || "supersecretkey123",
