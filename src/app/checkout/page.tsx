@@ -265,27 +265,16 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                <h3 className="text-2xl font-bold uppercase tracking-widest text-white mb-6">Payment Methods</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <h3 className="text-2xl font-bold uppercase tracking-widest text-white mb-6">Payment Method</h3>
+                <div className="grid grid-cols-1 gap-4">
                   <div 
-                    onClick={() => setPaymentMethod("upi")}
-                    className={`rounded-lg p-4 cursor-pointer flex items-center justify-between transition-colors ${paymentMethod === "upi" ? 'border border-neon bg-neon/5' : 'border border-border hover:border-border/80 bg-muted/20'}`}
+                    className="rounded-lg p-4 border border-neon bg-neon/5 flex items-center justify-between transition-colors"
                   >
                     <div>
                       <h4 className="font-bold text-white uppercase">UPI / QR Code</h4>
                       <p className="text-xs text-muted-foreground">Google Pay, PhonePe, Paytm</p>
                     </div>
-                    <div className={`w-4 h-4 rounded-full ${paymentMethod === "upi" ? 'bg-neon' : 'border border-muted-foreground'}`}></div>
-                  </div>
-                  <div 
-                    onClick={() => setPaymentMethod("cards")}
-                    className={`rounded-lg p-4 cursor-pointer flex items-center justify-between transition-colors ${paymentMethod === "cards" ? 'border border-neon bg-neon/5' : 'border border-border hover:border-border/80 bg-muted/20'}`}
-                  >
-                    <div>
-                      <h4 className="font-bold text-white uppercase">Cards</h4>
-                      <p className="text-xs text-muted-foreground">Credit or Debit</p>
-                    </div>
-                    <div className={`w-4 h-4 rounded-full ${paymentMethod === "cards" ? 'bg-neon' : 'border border-muted-foreground'}`}></div>
+                    <div className="w-4 h-4 rounded-full bg-neon"></div>
                   </div>
                 </div>
               </div>
