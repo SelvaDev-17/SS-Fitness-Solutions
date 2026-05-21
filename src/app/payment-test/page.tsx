@@ -36,10 +36,10 @@ export default function PaymentTestPage() {
     }
   };
 
-  const handlePaymentSuccess = (utr: string, file: File | null) => {
+  const handlePaymentSuccess = () => {
     setPaymentLog({
-      utr: utr || "None entered (Uploaded screenshot only)",
-      screenshotName: file ? file.name : null,
+      utr: "Demo/Sandbox payment submitted successfully",
+      screenshotName: "uploaded_screenshot.png",
       timestamp: new Date().toLocaleTimeString(),
     });
   };
@@ -248,6 +248,18 @@ export default function PaymentTestPage() {
         amount={amount}
         upiId={upiId}
         businessName={businessName}
+        customerName="Demo Guest Athlete"
+        phone="8946097349"
+        email="selvakumarsrinivasan17@gmail.com"
+        address="123 Fitness Way, Mumbai, MH - 400001"
+        products={[
+          {
+            id: "preset-supp-1",
+            name: "Premium Gym Supplement Stack",
+            price: amount,
+            quantity: 1,
+          },
+        ]}
         onPaymentSuccess={handlePaymentSuccess}
       />
 

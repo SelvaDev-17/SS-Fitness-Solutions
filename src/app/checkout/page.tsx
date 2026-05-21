@@ -329,7 +329,17 @@ export default function CheckoutPage() {
         isOpen={isUpiModalOpen}
         onClose={() => setIsUpiModalOpen(false)}
         amount={finalTotal}
-        onPaymentSuccess={(utr, file) => {
+        customerName={name}
+        phone={phone}
+        email={email}
+        address={`${address}, ${city}, ${deliveryState} - ${zip}`}
+        products={items.map((item) => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+        }))}
+        onPaymentSuccess={() => {
           setIsUpiModalOpen(false);
           setSuccess(true);
           clearCart();

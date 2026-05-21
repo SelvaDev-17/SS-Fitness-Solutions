@@ -23,6 +23,7 @@ import {
   UpiIcon, 
   QrCodeIcon 
 } from "./icons";
+import { createClient } from "@/utils/supabase/client";
 
 interface UPIPaymentModalProps {
   isOpen: boolean;
@@ -30,7 +31,17 @@ interface UPIPaymentModalProps {
   amount: number;
   upiId?: string;
   businessName?: string;
-  onPaymentSuccess?: (utr: string, screenshotFile: File | null) => void;
+  onPaymentSuccess?: () => void;
+  customerName: string;
+  phone: string;
+  email: string;
+  address: string;
+  products: Array<{
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+  }>;
 }
 
 export function UPIPaymentModal({
@@ -40,6 +51,11 @@ export function UPIPaymentModal({
   upiId = "brownboyvibe17-1@oksbi",
   businessName = "SS fitness solutions",
   onPaymentSuccess,
+  customerName,
+  phone,
+  email,
+  address,
+  products,
 }: UPIPaymentModalProps) {
   // States
   const [deviceType, setDeviceType] = useState<"android" | "ios" | "desktop">("desktop");
@@ -52,6 +68,7 @@ export function UPIPaymentModal({
   const [screenshotFile, setScreenshotFile] = useState<File | null>(null);
   const [screenshotPreview, setScreenshotPreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   
   // QR generation state
@@ -227,7 +244,7 @@ export function UPIPaymentModal({
   };
 
   // Submit Verification Form
-  const handleSubmitVerification = (e: React.FormEvent) => {
+  const handleSubmitVerification = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
 
@@ -243,15 +260,73 @@ export function UPIPaymentModal({
     }
 
     setIsSubmitting(true);
+    setSubmitStatus("Uploading screenshot...");
 
-    // Simulate server submission
-    setTimeout(() => {
+    try {
+      let uploadedScreenshotUrl = "";
+
+      if (screenshotFile) {
+        const supabase = createClient();
+        const fileExt = screenshotFile.name.split(".").pop();
+        const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        const { data, error: uploadError } = await supabase.storage
+          .from("payment-screenshots")
+          .upload(filePath, screenshotFile, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+
+        if (uploadError) {
+          throw new Error(`Screenshot upload failed: ${uploadError.message}`);
+        }
+
+        // Get public URL
+        const { data: { publicUrl } } = supabase.storage
+          .from("payment-screenshots")
+          .getPublicUrl(filePath);
+
+        uploadedScreenshotUrl = publicUrl;
+      }
+
+      setSubmitStatus("Saving order...");
+
+      // Submit order details to our API
+      const response = await fetch("/api/orders/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customer_name: customerName,
+          phone,
+          email,
+          address,
+          products,
+          amount,
+          utr_number: utrNumber || null,
+          screenshot_url: uploadedScreenshotUrl || null,
+        }),
+      });
+
+      if (!response.ok) {
+        const errJson = await response.json().catch(() => ({}));
+        throw new Error(errJson.error || "Failed to submit order. Please try again.");
+      }
+
+      setSubmitStatus("");
       setIsSubmitting(false);
       setStep("success");
       if (onPaymentSuccess) {
-        onPaymentSuccess(utrNumber, screenshotFile);
+        onPaymentSuccess();
       }
-    }, 2000);
+    } catch (err: any) {
+      console.error(err);
+      setErrorMsg(err.message || "Something went wrong submitting your verification.");
+      setIsSubmitting(false);
+      setSubmitStatus("");
+    }
   };
 
   // Reset modal state on close
@@ -657,7 +732,7 @@ export function UPIPaymentModal({
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
-                    <span>Verifying Transfer...</span>
+                    <span>{submitStatus || "Verifying Transfer..."}</span>
                   </span>
                 ) : (
                   <span>Submit For Verification</span>
