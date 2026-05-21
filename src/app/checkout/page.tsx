@@ -9,6 +9,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, Loader2, ShieldCheck } from "lucide-react";
 import Script from "next/script";
+import { UPIPaymentModal } from "@/components/payment/UPIPaymentModal";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -16,6 +17,7 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("upi");
+  const [isUpiModalOpen, setIsUpiModalOpen] = useState(false);
 
   // Guest Details State
   const [name, setName] = useState("");
@@ -35,6 +37,11 @@ export default function CheckoutPage() {
     
     if (!name || !email || !address || !city || !deliveryState || !zip || !phone) {
       alert("Please fill in all delivery and contact details.");
+      return;
+    }
+    
+    if (paymentMethod === "upi") {
+      setIsUpiModalOpen(true);
       return;
     }
     
@@ -321,13 +328,25 @@ export default function CheckoutPage() {
 
                 <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mt-6 bg-muted/20 p-3 rounded">
                   <ShieldCheck className="w-5 h-5 text-neon" />
-                  <span>Secured by Razorpay</span>
+                  <span>{paymentMethod === "upi" ? "Secured Peer-to-Peer UPI Transfer" : "Secured by Razorpay"}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </main>
+
+      <UPIPaymentModal
+        isOpen={isUpiModalOpen}
+        onClose={() => setIsUpiModalOpen(false)}
+        amount={finalTotal}
+        onPaymentSuccess={(utr, file) => {
+          setIsUpiModalOpen(false);
+          setSuccess(true);
+          clearCart();
+        }}
+      />
+
       <Footer />
     </>
   );
